@@ -22,7 +22,6 @@ class DetailViewController: UIViewController {
         let imageView = UIImageView()
         imageView.frame = view.bounds
         imageView.contentMode = .scaleAspectFill
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageViewTapped(gesture:))))
         return imageView
     }()
     
@@ -111,6 +110,9 @@ class DetailViewController: UIViewController {
                 self.planetImageView.transform = CGAffineTransform(scaleX: 0.45, y: 0.45)
                 self.getDescTextView()?.alpha = 1.0
             },completion: { _ in
+                self.view.addGestureRecognizer(
+                    UITapGestureRecognizer(target: self, action: #selector(self.imageViewTapped(gesture:)))
+                )
                 self.rotatePlanet()
             }
         )
@@ -122,6 +124,7 @@ class DetailViewController: UIViewController {
         duplicatePlanetImage = UIImageView(frame: planetImageView.frame)
         duplicatePlanetImage?.image = planetImageView.image
         duplicatePlanetImage?.contentMode = .scaleAspectFill
+
         view.addSubview(duplicatePlanetImage!)
         planetImageView.superview?.bringSubviewToFront(duplicatePlanetImage!)
         planetImageView.superview?.bringSubviewToFront(descView)
