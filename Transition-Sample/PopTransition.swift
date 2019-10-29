@@ -60,7 +60,7 @@ class PopTransition: NSObject, UIViewControllerAnimatedTransitioning {
                 
                 if !self.presenting {
                     let viewController = transitionContext.viewController(forKey: .from) as! DetailViewController
-                    viewController.descView.alpha = 0.0
+                    viewController.descContainer.alpha = 0.0
                     viewController.duplicatePlanetImage?.alpha = 0.0
                     viewController.view.backgroundColor = .clear
                     viewController.planetImageView.contentMode = .redraw

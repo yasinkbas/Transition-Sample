@@ -25,9 +25,9 @@ class DetailViewController: UIViewController {
         return imageView
     }()
     
-    lazy var descView: UIView = {
+    lazy var descContainer: UIView = {
         
-        // base container
+        // container
         let containerView = UIView()
         containerView.frame = CGRect(
             x: -(self.view.bounds.width * 1.2 - self.view.bounds.width) / 2,
@@ -48,7 +48,7 @@ class DetailViewController: UIViewController {
         label.tag = 101
         label.textAlignment = .center
         label.textColor = .white
-        label.font = UIFont(name: FontName.avenirnextheavy.rawValue, size: 30)
+        label.font = UIFont(name: FontName.americantypewriter.rawValue, size: 30)
         containerView.addSubview(label)
         
         // tiny line
@@ -75,7 +75,7 @@ class DetailViewController: UIViewController {
         descTextView.backgroundColor = .clear
         descTextView.textColor = .white
         descTextView.textAlignment = .center
-        descTextView.font = UIFont(name: FontName.avenirnextregular.rawValue, size: 22)
+        descTextView.font = UIFont(name: FontName.americantypewriter.rawValue, size: 16)
         descTextView.isEditable = false
         descTextView.alpha = 0.0
         descTextView.tag = 102
@@ -96,7 +96,7 @@ class DetailViewController: UIViewController {
         view.backgroundColor = .black
         
         view.addSubview(planetImageView)
-        view.addSubview(descView)
+        view.addSubview(descContainer)
         
         configureView()
     }
@@ -127,7 +127,7 @@ class DetailViewController: UIViewController {
         
         view.addSubview(duplicatePlanetImage!)
         planetImageView.superview?.bringSubviewToFront(duplicatePlanetImage!)
-        planetImageView.superview?.bringSubviewToFront(descView)
+        planetImageView.superview?.bringSubviewToFront(descContainer)
         startRotatingDuplicatePlanetImage()
     }
     
@@ -162,18 +162,24 @@ class DetailViewController: UIViewController {
         
     }
     
-    // MARK: - Get from tag
+    // MARK: - Get view
     func getDescTextView() -> UITextView? {
-        let textView = descView.subviews.filter({ $0.tag == 102}).first as? UITextView
+        let textView = getView(withTag: 102, in: descContainer) as? UITextView
         
         return textView
     }
     
     
     func getTitleLabel() -> UILabel? {
-        let label = descView.subviews.filter({ $0.tag == 101 }).first as? UILabel
+        let label = getView(withTag: 101, in: descContainer) as? UILabel
         
         return label
+    }
+    
+    func getView(withTag tag: Int, in superView: UIView) -> UIView? {
+        let view = superView.subviews.filter({ $0.tag == tag }).first
+        
+        return view
     }
     
     // MARK: - Gesture

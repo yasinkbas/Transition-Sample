@@ -44,7 +44,6 @@ class PlanetScrollView: UIScrollView {
             )
             view.tag = i
             view.isUserInteractionEnabled = true
-            
             view.layer.cornerRadius = view.frame.height / 2
             
             let planetImage = UIImageView()
