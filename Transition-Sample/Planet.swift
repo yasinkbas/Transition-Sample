@@ -26,6 +26,17 @@ class Planet {
     static func all() -> [Planet] {
         return [
             Planet(
+                name: "Sun",
+                image: "sun",
+                desc:
+                """
+                The sun is a star, a hot ball of glowing gases at the heart of our solar system. Its influence extends far beyond the orbits of distant Neptune and Pluto. Without the sun's intense energy and heat, there would be no life on Earth. And though it is special to us, there are billions of stars like our sun scattered across the Milky Way galaxy. If the sun were as tall as a typical front door, the Earth would be the size of a U.S. nickel. The temperature at the sun's core is about 27 million degrees Fahrenheit.
+
+                Average diameter: 864,000 miles, about 109 times the size of the Earth.
+                """,
+                scale: 1.2
+            ),
+            Planet(
                 name: "Mercury",
                 image: "mercury",
                 desc:
@@ -112,15 +123,6 @@ class Planet {
                 Neptune is dark, cold, and very windy. It's the last of the planets in our solar system. It's more than 30 times as far from the sun as Earth is. Neptune is very similar to Uranus. It's made of a thick fog of water, ammonia, and methane over an Earth-sized solid center. Its atmosphere is made of hydrogen, helium, and methane. The methane gives Neptune the same blue color as Uranus. Neptune has six rings, but they're very hard to see.
                 """,
                 scale: 0.5
-            ),
-            
-            Planet(
-                name: "Pluto",
-                image: "pluto",
-                desc: """
-                Pluto, once considered the ninth and most distant planet from the sun, is now the largest known dwarf planet in the solar system. It is also one of the largest known members of the Kuiper Belt, a shadowy zone beyond the orbit of Neptune thought to be populated by hundreds of thousands of rocky, icy bodies each larger than 62 miles (100 kilometers) across, along with 1 trillion or more comets.
-                """,
-                scale: 0.1
             )
         ]
     }

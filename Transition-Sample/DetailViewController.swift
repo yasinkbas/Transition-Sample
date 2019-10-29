@@ -11,9 +11,9 @@ import UIKit
 class DetailViewController: UIViewController {
     
     var planet:Planet!
-        
+    
     var duplicatePlanetImage: UIImageView?
-
+    
     var rotating = CGFloat.pi * 2
     
     // MARK: - UI Objects
@@ -80,7 +80,7 @@ class DetailViewController: UIViewController {
         descTextView.alpha = 0.0
         descTextView.tag = 102
         containerView.addSubview(descTextView)
-    
+        
         return containerView
     }()
     
@@ -101,7 +101,7 @@ class DetailViewController: UIViewController {
         configureView()
     }
     
-   // MARK: - initial animation
+    // MARK: - initial animation
     func animatePlanetImageView() {
         
         UIView.animate(
@@ -109,12 +109,12 @@ class DetailViewController: UIViewController {
             animations: {
                 self.planetImageView.transform = CGAffineTransform(scaleX: 0.45, y: 0.45)
                 self.getDescTextView()?.alpha = 1.0
-            },completion: { _ in
-                self.view.addGestureRecognizer(
-                    UITapGestureRecognizer(target: self, action: #selector(self.imageViewTapped(gesture:)))
-                )
-                self.rotatePlanet()
-            }
+        },completion: { _ in
+            self.view.addGestureRecognizer(
+                UITapGestureRecognizer(target: self, action: #selector(self.imageViewTapped(gesture:)))
+            )
+            self.rotatePlanet()
+        }
         )
     }
     
@@ -124,7 +124,7 @@ class DetailViewController: UIViewController {
         duplicatePlanetImage = UIImageView(frame: planetImageView.frame)
         duplicatePlanetImage?.image = planetImageView.image
         duplicatePlanetImage?.contentMode = .scaleAspectFill
-
+        
         view.addSubview(duplicatePlanetImage!)
         planetImageView.superview?.bringSubviewToFront(duplicatePlanetImage!)
         planetImageView.superview?.bringSubviewToFront(descView)
@@ -133,20 +133,20 @@ class DetailViewController: UIViewController {
     
     func startRotatingDuplicatePlanetImage() {
         UIView.animate(
-                    withDuration: 15,
-                    delay: 0.0,
-                    options: [.curveLinear],
-                    animations: { [weak self] in
-                        guard let self = self else { return }
-                        self.rotating += .pi / 4
-                        self.duplicatePlanetImage?.transform = CGAffineTransform(rotationAngle: self.rotating)
-                        
-                        print("rotating \(self.rotating)")
-                    },
-                    completion: { [weak self] _ in
-                        guard let self = self else { return }
-                        self.startRotatingDuplicatePlanetImage()
-                    }
+            withDuration: 15,
+            delay: 0.0,
+            options: [.curveLinear],
+            animations: { [weak self] in
+                guard let self = self else { return }
+                self.rotating += .pi / 4
+                self.duplicatePlanetImage?.transform = CGAffineTransform(rotationAngle: self.rotating)
+                
+                print("rotating \(self.rotating)")
+            },
+            completion: { [weak self] _ in
+                guard let self = self else { return }
+                self.startRotatingDuplicatePlanetImage()
+            }
         )
     }
     
@@ -159,30 +159,21 @@ class DetailViewController: UIViewController {
         
         let descTextView = getDescTextView()
         descTextView?.text = self.planet.desc
- 
+        
     }
     
-    // MARK: - Gets
+    // MARK: - Get from tag
     func getDescTextView() -> UITextView? {
-        let textViews = descView.subviews.map({ $0 as? UITextView })
-         for textView in textViews {
-             if textView?.tag == 102 {
-                 return textView
-             }
-         }
-
-        return nil
+        let textView = descView.subviews.filter({ $0.tag == 102}).first as? UITextView
+        
+        return textView
     }
+    
     
     func getTitleLabel() -> UILabel? {
-        let labels = descView.subviews.map({ $0 as? UILabel })
-        for label in labels {
-            if label?.tag == 101 {
-               return label
-            }
-        }
+        let label = descView.subviews.filter({ $0.tag == 101 }).first as? UILabel
         
-        return nil
+        return label
     }
     
     // MARK: - Gesture
