@@ -30,6 +30,24 @@ class ViewController: UIViewController {
         return view
     }()
     
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        let width = self.view.bounds.width
+        label.frame = CGRect(
+            x: 0,
+            y: 200,
+            width: width,
+            height: 50
+        )
+        label.center.x = self.view.bounds.midX
+        label.text = "Our Solar System"
+        label.textAlignment = .center
+        label.textColor = .white
+        label.font = UIFont(name: FontName.americantypewriterbold.rawValue, size: 35)
+        
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -40,6 +58,7 @@ class ViewController: UIViewController {
     func addSubViews() {
         view.addSubview(scrollContainerView)
         view.addSubview(planetSlider)
+        view.addSubview(titleLabel)
     }
     
     func makeSlider() {
