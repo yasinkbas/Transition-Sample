@@ -94,16 +94,13 @@ class DetailViewController: UIViewController {
     override func loadView() {
         super.loadView()
         view.backgroundColor = .black
-        
         view.addSubview(planetImageView)
         view.addSubview(descContainer)
-        
         configureView()
     }
     
     // MARK: - initial animation
     func animatePlanetImageView() {
-        
         UIView.animate(
             withDuration: 1,
             animations: {
@@ -114,8 +111,7 @@ class DetailViewController: UIViewController {
                 UITapGestureRecognizer(target: self, action: #selector(self.imageViewTapped(gesture:)))
             )
             self.rotatePlanet()
-        }
-        )
+        })
     }
     
     func rotatePlanet() {

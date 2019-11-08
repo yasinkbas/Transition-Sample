@@ -8,13 +8,14 @@
 
 import UIKit
 
+enum Direction {
+    case up, down, left, right
+}
+
 class ViewController: UIViewController {
     
-    var planetSlider: PlanetScrollView!
-    
-    // MARK: transition object
     var transition = PopTransition()
-    
+    var planetSlider: PlanetScrollView!
     var selectedPlanetImage: UIImageView?
     
     lazy var scrollContainerView: UIView = {
@@ -32,13 +33,13 @@ class ViewController: UIViewController {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        let width = self.view.bounds.width
         label.frame = CGRect(
             x: 0,
-            y: 200,
-            width: width,
-            height: 50
+            y: -60,
+            width: self.view.bounds.width,
+            height: 60
         )
+        label.alpha = 0.0
         label.center.x = self.view.bounds.midX
         label.text = "Our Solar System"
         label.textAlignment = .center
@@ -48,11 +49,14 @@ class ViewController: UIViewController {
         return label
     }()
     
+    // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
+        setupGestures()
         makeSlider()
         addSubViews()
+        onStartup()
     }
     
     func addSubViews() {
@@ -61,6 +65,29 @@ class ViewController: UIViewController {
         view.addSubview(titleLabel)
     }
     
+    // MARK: - Setup
+    func setupGestures() {
+        let upSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(gestureHandler(_:)))
+        let downSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(gestureHandler(_:)))
+        upSwipeGesture.direction = .up
+        downSwipeGesture.direction = .down
+        view.addGestureRecognizer(upSwipeGesture)
+        view.addGestureRecognizer(downSwipeGesture)
+    }
+    
+    @objc
+    func gestureHandler(_ gesture: UISwipeGestureRecognizer) {
+        print("gesture worked")
+        switch gesture.direction {
+        case .up:
+            animateTitleLabel(direction: .up)
+        case .down:
+            animateTitleLabel(direction: .down)
+        default: break
+        }
+    }
+    
+    // MARK: - Make
     func makeSlider() {
         planetSlider = PlanetScrollView(inView: scrollContainerView)
         planetSlider.didSelectPlanet = { index, image in
@@ -69,6 +96,7 @@ class ViewController: UIViewController {
         }
     }
     
+    // MARK: - Action
     func clickPlanet(index: Int, image: UIImageView) {
         print(index)
         selectedPlanetImage = image
@@ -77,6 +105,37 @@ class ViewController: UIViewController {
         detailViewController.modalPresentationStyle = .fullScreen
         detailViewController.transitioningDelegate = self
         present(detailViewController,animated: true,completion: nil)
+    }
+    
+    // MARK: - On Startup
+    func onStartup() {
+        animateTitleLabel(direction: .down)
+    }
+    
+    func animateTitleLabel(direction: Direction) {
+        var yPosition: CGFloat = 0
+        
+        switch direction {
+        case .up:
+            yPosition = -50
+        case .down:
+            yPosition = 100
+        default: break
+        }
+        UIView.animate(
+            withDuration: 1.6,
+            delay: 0.0,
+            usingSpringWithDamping: 0.8,
+            initialSpringVelocity: 0,
+            animations: {
+                self.titleLabel.frame = CGRect(
+                    x: 0,
+                    y: yPosition,
+                    width: self.view.bounds.width,
+                    height: 50
+                )
+                self.titleLabel.alpha = 1
+        })
     }
 }
 
@@ -97,4 +156,3 @@ extension ViewController: UIViewControllerTransitioningDelegate {
         return transition
     }
 }
-

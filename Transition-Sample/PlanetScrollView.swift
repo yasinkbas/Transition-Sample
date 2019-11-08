@@ -77,5 +77,4 @@ class PlanetScrollView: UIScrollView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
 }
